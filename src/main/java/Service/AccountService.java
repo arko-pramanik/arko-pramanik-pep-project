@@ -25,4 +25,8 @@ public class AccountService {
     public Account getLogin(Account account){
         return accountDAO.geAccount(account);
     }
+
+    public Boolean getAccountById(int id){
+        return accountDAO.geAccountById(id);
+    }
 }
