@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.ArrayList;
+
 import DAO.MessageDAO;
 import Model.Message;
 
@@ -16,5 +18,13 @@ public class MessageService {
             return null;
         }
         return messageDAO.insertMessage(message);
+    }
+
+    public ArrayList<Message> getAllMessage(){
+        return messageDAO.getAllMessage();
+    }
+    
+    public Message getMessageById(int id){
+        return messageDAO.getMessageById(id);
     }
 }

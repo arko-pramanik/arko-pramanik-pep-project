@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.ArrayList;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -41,6 +43,8 @@ public class SocialMediaController {
         app.post("/register", this::postRegistrationHandler);
         app.post("/login", this::postLoginHandler);
         app.post("/messages", this::postMessageHandler);
+        app.get("/messages", this::getAllMessageHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
         return app;
     }
 
@@ -79,6 +83,20 @@ public class SocialMediaController {
             ctx.json(mapper.writeValueAsString(addedMessage)).status(200);
         } else{
             ctx.status(400);
+        }
+    }
+
+    private void getAllMessageHandler(Context ctx){
+        ArrayList<Message> allMessage = messageService.getAllMessage();
+        ctx.json(allMessage).status(200);
+    }
+
+    private void getMessageByIdHandler(Context ctx){
+        Message message = messageService.getMessageById(Integer.parseInt(ctx.pathParam("message_id")));
+        if (message != null){
+            ctx.json(message).status(200);
+        } else{
+            ctx.status(200);
         }
     }
 

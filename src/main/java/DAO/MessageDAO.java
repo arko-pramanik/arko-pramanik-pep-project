@@ -4,6 +4,7 @@ import Model.Message;
 import Util.ConnectionUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MessageDAO {
     public Message insertMessage(Message message){
@@ -21,6 +22,38 @@ public class MessageDAO {
                 return new Message(generated_id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList<Message> getAllMessage(){
+        Connection connection = ConnectionUtil.getConnection();
+        ArrayList<Message> message = new ArrayList<Message>();
+        try {
+            String sql = "SELECT * FROM message;";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                message.add(new Message(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getLong(4)));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return message;
+    }
+
+    public Message getMessageById(int id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "SELECT * FROM message WHERE message_id = ?;";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                return new Message(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
+            }
+        } catch (SQLException e){
             System.out.println(e.getMessage());
         }
         return null;
