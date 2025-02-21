@@ -27,4 +27,8 @@ public class MessageService {
     public Message getMessageById(int id){
         return messageDAO.getMessageById(id);
     }
+
+    public ArrayList<Message> getMessageByAccount(int id){
+        return messageDAO.getMessageByAccount(id);
+    }
 }

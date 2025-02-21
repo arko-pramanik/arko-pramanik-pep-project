@@ -45,6 +45,9 @@ public class SocialMediaController {
         app.post("/messages", this::postMessageHandler);
         app.get("/messages", this::getAllMessageHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
+
+
+        app.get("/accounts/{account_id}/messages", this::getMessageByAccountHandler);
         return app;
     }
 
@@ -98,6 +101,11 @@ public class SocialMediaController {
         } else{
             ctx.status(200);
         }
+    }
+
+    private void getMessageByAccountHandler(Context ctx){
+        ArrayList<Message> allMessage = messageService.getMessageByAccount(Integer.parseInt(ctx.pathParam("account_id")));
+        ctx.json(allMessage).status(200);
     }
 
     /**
