@@ -13,12 +13,16 @@ public class AccountService {
     public Account addAccount(Account account){
         String username = account.getUsername();
         String password = account.getPassword();
-        if (username == null || username.isEmpty()){
+        if (username == null || username.isBlank()){
             return null;
         }
         if (password == null || password.length() < 4){
             return null;
         }
         return accountDAO.insertAccount(account);
+    }
+
+    public Account getLogin(Account account){
+        return accountDAO.geAccount(account);
     }
 }
