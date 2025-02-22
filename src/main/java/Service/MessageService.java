@@ -28,6 +28,12 @@ public class MessageService {
         return messageDAO.getMessageById(id);
     }
 
+    public Message deleteMessageById(int id){
+        Message message = messageDAO.getMessageById(id);
+        messageDAO.deleteMessageById(id);
+        return message;
+    }
+
     public ArrayList<Message> getMessageByAccount(int id){
         return messageDAO.getMessageByAccount(id);
     }
