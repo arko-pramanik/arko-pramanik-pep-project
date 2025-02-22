@@ -2,6 +2,8 @@ package Controller;
 
 import java.util.ArrayList;
 
+import javax.sound.midi.SysexMessage;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -46,7 +48,7 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessageHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("messages/{message_id}", this::deleteMessageHandler);
-
+        app.patch("/messages/{message_id}", this::patchMessageHandler);
         app.get("/accounts/{account_id}/messages", this::getMessageByAccountHandler);
         return app;
     }
@@ -102,13 +104,24 @@ public class SocialMediaController {
             ctx.status(200);
         }
     }
-    
+
     private void deleteMessageHandler(Context ctx){
         Message message = messageService.deleteMessageById(Integer.parseInt(ctx.pathParam("message_id")));
         if (message != null){
             ctx.json(message).status(200);
         } else{
             ctx.status(200);
+        }
+    }
+
+    private void patchMessageHandler(Context ctx) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message messageFromUser = mapper.readValue(ctx.body(), Message.class);
+        Message message = messageService.updateMessageById(Integer.parseInt(ctx.pathParam("message_id")), messageFromUser.getMessage_text());
+        if (message != null){
+            ctx.json(message).status(200);
+        } else{
+            ctx.status(400);
         }
     }
 

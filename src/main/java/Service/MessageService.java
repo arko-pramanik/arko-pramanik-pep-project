@@ -14,7 +14,7 @@ public class MessageService {
 
     public Message addMessage(Message message){
         String messageText = message.getMessage_text();
-        if (messageText.isBlank() || messageText.length() >= 255){
+        if (messageText == null ||messageText.isBlank() || messageText.length() >= 255){
             return null;
         }
         return messageDAO.insertMessage(message);
@@ -32,6 +32,17 @@ public class MessageService {
         Message message = messageDAO.getMessageById(id);
         messageDAO.deleteMessageById(id);
         return message;
+    }
+
+    public Message updateMessageById(int id, String messageText){
+        //System.out.println(messageText);
+        if (messageText == null || messageText.isBlank() || messageText.length() >= 255){
+            return null;
+        }
+        if (messageDAO.getMessageById(id) == null){
+            return null;
+        }
+        return messageDAO.updateMessageById(id, messageText);
     }
 
     public ArrayList<Message> getMessageByAccount(int id){
