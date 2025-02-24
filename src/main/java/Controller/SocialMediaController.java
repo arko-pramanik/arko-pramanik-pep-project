@@ -2,8 +2,6 @@ package Controller;
 
 import java.util.ArrayList;
 
-import javax.sound.midi.SysexMessage;
-
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -117,7 +115,7 @@ public class SocialMediaController {
     private void patchMessageHandler(Context ctx) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Message messageFromUser = mapper.readValue(ctx.body(), Message.class);
-        Message message = messageService.updateMessageById(Integer.parseInt(ctx.pathParam("message_id")), messageFromUser.getMessage_text());
+        Message message = messageService.updateMessageById(Integer.parseInt(ctx.pathParam("message_id")), messageFromUser);
         if (message != null){
             ctx.json(message).status(200);
         } else{

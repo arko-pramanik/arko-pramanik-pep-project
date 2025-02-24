@@ -34,8 +34,9 @@ public class MessageService {
         return message;
     }
 
-    public Message updateMessageById(int id, String messageText){
+    public Message updateMessageById(int id, Message message){
         //System.out.println(messageText);
+        String messageText = message.getMessage_text();
         if (messageText == null || messageText.isBlank() || messageText.length() >= 255){
             return null;
         }
